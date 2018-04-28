@@ -1,4 +1,4 @@
-# @bigtest/mocha
+# @bigtest/mocha [![CircleCI](https://circleci.com/gh/bigtestjs/mocha.svg?style=svg)](https://circleci.com/gh/bigtestjs/mocha)
 
 Convergent Mocha functions for testing against asynchronous states
 
