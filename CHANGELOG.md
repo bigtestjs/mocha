@@ -9,6 +9,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 - upgraded `@bigtest/convergence` to `^0.9.1`
 
+### Deprecated
+
+- `it.pause` because it was a hack
+
 ### Added
 
 - `docs` script to generate documentation

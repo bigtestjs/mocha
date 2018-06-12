@@ -68,11 +68,16 @@ function convergentHook(hook) {
  * returns a promise that never resolves or rejects
  *
  * @private
+ * @deprecated
  * @param {Function} it - original it function
  * @returns {Function} new it function that will pause the test
  */
 function pauseTest(it) {
   return (title) => it(title, function() {
+    console.warn(`Using \`it.pause\` is deprecated.
+It is a hack that prevents the current event loop from running. Consider moving \
+any teardown to run before your setup so you can debug tests using \`it.only\`.`);
+
     this.timeout(0);
     return new Promise(() => {});
   });
