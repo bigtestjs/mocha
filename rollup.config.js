@@ -20,8 +20,9 @@ export default {
       babelrc: false,
       comments: false,
       presets: [
-        ['@babel/preset-env', {
-          modules: false
+        ['@babel/env', {
+          modules: false,
+          useBuiltIns: 'usage'
         }]
       ]
     })
