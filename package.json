@@ -4,31 +4,33 @@
   "version": "0.3.3",
   "license": "MIT",
   "repository": "https://github.com/bigtestjs/mocha",
-  "main": "dist/index.js",
-  "module": "src/index.js",
+  "main": "dist/umd/index.js",
+  "module": "dist/esm/index.js",
+  "files": [
+    "dist",
+    "docs",
+    "src"
+  ],
   "browser": {
     "mocha": false
   },
   "scripts": {
     "build": "rollup --config",
-    "test": "mocha --opts ./tests/mocha.opts ./tests",
-    "postpublish": "bigtest-tag-version",
     "docs": "bigtest-docs",
-    "lint": "eslint ./"
+    "lint": "eslint --ignore-path .gitignore ./",
+    "postpublish": "bigtest-tag-version",
+    "test": "mocha --opts ./tests/mocha.opts ./tests"
   },
-  "eslintIgnore": [
-    "/dist/"
-  ],
   "dependencies": {
     "@bigtest/convergence": "^0.9.1"
   },
   "peerDependencies": {
-    "mocha": "^4.0.1"
+    "mocha": ">= 4.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.35",
-    "@babel/preset-env": "^7.0.0-beta.35",
-    "@babel/register": "^7.0.0-beta.35",
+    "@babel/core": "^7.0.0-beta.0",
+    "@babel/preset-env": "^7.0.0-beta.0",
+    "@babel/register": "^7.0.0-beta.0",
     "@bigtest/meta": "bigtestjs/meta",
     "chai": "^4.1.2",
     "eslint": "^4.16.0",
