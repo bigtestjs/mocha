@@ -5,9 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+## [0.4.0] - 2018-07-01
+
+### Changed
+
+- upgraded `@bigtest/convergence` to `^0.9.1`
+
+### Deprecated
+
+- `it.pause` because it was a hack
+
 ### Added
 
 - `docs` script to generate documentation
+- transpiled es module bundle
 
 ## [0.3.3] - 2018-03-16
 

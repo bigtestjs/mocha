@@ -12,7 +12,7 @@ describe('BigTest Mocha: it.always', () => {
   }));
 
   it('successfully passes after the timeout', () => {
-    expect(tests[0].duration).to.be.within(100, 120);
+    expect(tests[0].duration).to.be.within(200, 220);
     expect(tests[0].err).to.be.empty;
   });
 
@@ -22,7 +22,7 @@ describe('BigTest Mocha: it.always', () => {
   });
 
   it('throws when the assertion fails', () => {
-    expect(tests[2].duration).to.be.within(200, 220);
+    expect(tests[2].duration).to.be.within(250, 270);
     expect(tests[2].err).to.have.property('expected', '0');
   });
 
@@ -48,7 +48,7 @@ describe('BigTest Mocha: it.always.only', () => {
 
   it('runs a single test', () => {
     expect(tests).to.have.lengthOf(1);
-    expect(tests[0].duration).to.be.within(100, 120);
+    expect(tests[0].duration).to.be.within(200, 220);
     expect(tests[0].err).to.be.empty;
   });
 });

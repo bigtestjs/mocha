@@ -6,7 +6,7 @@ describe('it.always', () => {
 
   beforeEach(() => {
     value = 0;
-    timeout = setTimeout(() => value = 1, 200);
+    timeout = setTimeout(() => value = 1, 250);
   });
 
   afterEach(() => {

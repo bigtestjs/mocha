@@ -1,6 +1,6 @@
 references:
   defaults: &defaults
-    working_directory: ~/bigtest
+    working_directory: ~/mocha
     docker:
       - image: circleci/node:8-browsers
 
@@ -9,7 +9,7 @@ references:
 
   attach_workspace: &attach_workspace
     attach_workspace:
-      at: ~/bigtest
+      at: ~/
 
 version: 2.0
 jobs:
@@ -23,15 +23,16 @@ jobs:
       - run:
           name: Install dependencies
           command: yarn
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - ./
       - save_cache:
           name: Save cache
           key: *cache_key
           paths:
             - node_modules
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - mocha
+            - .ssh
 
   lint:
     <<: *defaults
@@ -51,6 +52,11 @@ jobs:
       - run:
           name: Build packages
           command: yarn build
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - mocha/dist
+            - mocha/docs
 
   test:
     <<: *defaults
@@ -71,10 +77,7 @@ jobs:
             npx bigtest-release --access=public
       - run:
           name: Push Tags
-          command: |
-            mkdir -p ~/.ssh
-            ssh-keyscan github.com >> ~/.ssh/known_hosts
-            git push --tags
+          command: git push --tags
 
 workflows:
   version: 2

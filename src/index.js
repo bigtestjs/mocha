@@ -1,52 +1,93 @@
 import * as mocha from './mocha';
-import { convergent, handleConvergence } from './utils';
+import { when, always, isConvergence } from '@bigtest/convergence';
 
 /**
- * Creates a convergent it function. Accepts the original it as the
- * first argument and a boolean to indicate that this should be an
- * always convergence.
+ * Returns the context's original timeout after setting it to `0`.
  *
+ * @private
+ * @param {Object} ctx - context with a timeout method
+ * @returns {Number} the context's timeout
+ */
+function timeout(ctx) {
+  let ms = ctx.timeout();
+  ctx.timeout(0);
+  return ms;
+};
+
+/**
+ * Uses the original it as the and the convergence function to create
+ * a convergent it function.
+ *
+ * @private
  * @param {Function} it - original it function
- * @param {Boolean} always - true to use an always convergence
+ * @param {Function} converge - convergence function to use
  * @returns {Function} convergent it function
  */
-function convergentIt(it, always) {
+function convergentIt(it, converge) {
   return (title, assertion) => {
-    let test = it(title, assertion && convergent(assertion, always));
-    // it.always has a default timeout of 100ms
-    return always ? test.timeout(100) : test;
+    // create a convergent test with the timeout
+    let test = it(title, assertion && function() {
+      return converge(assertion.bind(this), timeout(this));
+    });
+
+    // it.always has a default timeout of 200ms
+    return converge === always
+      ? test.timeout(200)
+      : test;
   };
 }
 
 /**
- * Creates a hook capable of auto-running returned convergences
+ * Creates a hook function that will use the timeout for any returned
+ * convergence instance.
  *
+ * @private
  * @param {Function} hook - original hook function
  * @returns {Function} new hook function
  */
 function convergentHook(hook) {
-  return (fn) => hook(handleConvergence(fn));
+  return (fn) => hook(function() {
+    // default timeout
+    let ms = timeout(this);
+    // run the hook and reference any return value
+    let results = fn.call(this);
+    // update timeout in case it changed
+    ms = timeout(this) || ms;
+
+    // return a promise so we can always reset the timeout
+    return Promise.resolve()
+    // if a convergence was returned, run it with the timeout
+      .then(() => isConvergence(results) ? results.timeout(ms) : results)
+    // reset the hook timeout
+      .finally(() => this.timeout(ms));
+  });
 }
 
 /**
  * Simple pause test helper that sets the current timeout to 0 and
  * returns a promise that never resolves or rejects
  *
+ * @private
+ * @deprecated
  * @param {Function} it - original it function
  * @returns {Function} new it function that will pause the test
  */
 function pauseTest(it) {
   return (title) => it(title, function() {
+    console.warn(`Using \`it.pause\` is deprecated.
+It is a hack that prevents the current event loop from running. Consider moving \
+any teardown to run before your setup so you can debug tests using \`it.only\`.`);
+
     this.timeout(0);
     return new Promise(() => {});
   });
 }
 
 // all variations of `it`
-const it = convergentIt(mocha.it);
-it.only = convergentIt(mocha.it.only);
-it.always = convergentIt(mocha.it, true);
-it.always.only = convergentIt(mocha.it.only, true);
+const it = convergentIt(mocha.it, when);
+it.only = convergentIt(mocha.it.only, when);
+it.always = convergentIt(mocha.it, always);
+it.always.only = convergentIt(mocha.it.only, always);
 it.only.always = it.always.only;
 it.pause = pauseTest(mocha.it);
 it.pause.only = pauseTest(mocha.it.only);
