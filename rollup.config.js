@@ -21,8 +21,7 @@ export default {
       comments: false,
       presets: [
         ['@babel/env', {
-          modules: false,
-          useBuiltIns: 'usage'
+          modules: false
         }]
       ]
     })
