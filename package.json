@@ -1,7 +1,7 @@
 {
   "name": "@bigtest/mocha",
   "description": "Mocha helpers for testing big",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "license": "MIT",
   "repository": "https://github.com/bigtestjs/mocha",
   "main": "dist/umd/index.js",
@@ -22,7 +22,7 @@
     "test": "mocha --opts ./tests/mocha.opts ./tests"
   },
   "dependencies": {
-    "@bigtest/convergence": "^0.9.1"
+    "@bigtest/convergence": "^0.10.0"
   },
   "peerDependencies": {
     "mocha": ">= 4.0.0"
