@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+## [0.5.1] - 2018-08-17
+
+### Fixed
+
+- `promise.finally` because it is not supported by all browsers
+
 ## [0.5.0] - 2018-07-06
 
 ### Changed
