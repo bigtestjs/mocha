@@ -54,12 +54,15 @@ function convergentHook(hook) {
     // update timeout in case it changed
     ms = timeout(this) || ms;
 
+    // reset the hook timeout later
+    let reset = () => this.timeout(ms);
+
     // return a promise so we can always reset the timeout
     return Promise.resolve()
     // if a convergence was returned, run it with the timeout
       .then(() => isConvergence(results) ? results.timeout(ms) : results)
-    // reset the hook timeout
-      .finally(() => this.timeout(ms));
+    // reset the timeout on success or error (no finally support)
+      .then(reset, err => { reset(); throw err; });
   });
 }
 
