@@ -1,4 +1,9 @@
-# @bigtest/mocha [![CircleCI](https://circleci.com/gh/bigtestjs/mocha.svg?style=svg)](https://circleci.com/gh/bigtestjs/mocha)
+# :warning: DEPRECATED :warning:
+In order to make BigTest development faster and friction free, we've consolidated all of our individual projects into a [single repository on the Frontside Organization](https://github.com/thefrontside/bigtest). We'd love to see you there!
+
+_note: the last release from this repository was 0.5.2_
+
+## @bigtest/mocha
 
 Convergent Mocha functions for testing against asynchronous states
 
